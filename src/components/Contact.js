@@ -58,7 +58,7 @@ const Contact = () => {
             <div className="row">
               <div className="col-sm-6">
                 <div className="footer-content">
-                  <form role="form" id="footer-form" onSubmit={handleSubmit}>
+                  <form id="footer-form" onSubmit={handleSubmit}>
                     <div className="form-group has-feedback">
                       <label className="sr-only" htmlFor="name2">Name</label>
                       <input 
@@ -132,27 +132,25 @@ const Contact = () => {
                   
                   <ul className="social-links">
                     <li className="facebook">
-                      <a target="_blank" href="#" rel="noopener noreferrer">
+                      <a target="_blank" href="https://facebook.com/" rel="noopener noreferrer">
                         <i className="fa fa-facebook"></i>
                       </a>
                     </li>
                     <li className="twitter">
-                      <a target="_blank" href="#" rel="noopener noreferrer">
+                      <a target="_blank" href="https://twitter.com/" rel="noopener noreferrer">
                         <i className="fa fa-twitter"></i>
                       </a>
                     </li>
                     <li className="googleplus">
-                      <a target="_blank" href="#" rel="noopener noreferrer">
+                      <a target="_blank" href="https://plus.google.com/" rel="noopener noreferrer">
                         <i className="fa fa-google-plus"></i>
                       </a>
                     </li>
-                  
                     <li className="linkedin">
-                      <a target="_blank" href="#" rel="noopener noreferrer">
+                      <a target="_blank" href="https://linkedin.com/" rel="noopener noreferrer">
                         <i className="fa fa-linkedin"></i>
                       </a>
                     </li>
-                
                   </ul>
                 </div>
               </div>
