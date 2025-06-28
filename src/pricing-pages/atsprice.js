@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Pricing = () => {
   const navigate = useNavigate();
+  const [region, setRegion] = useState('USD');
+  const [loadingRegion, setLoadingRegion] = useState(true);
+
+  useEffect(() => {
+    // Use ipapi.co to get country code
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.country_code === 'IN') {
+          setRegion('INR');
+        } else if (["AE","AR","SA","QA","OM","KW","BH"].includes(data.country_code)) {
+          setRegion('INR');
+        } else {
+          setRegion('USD');
+        }
+        setLoadingRegion(false);
+      })
+      .catch(() => {
+        setRegion('USD');
+        setLoadingRegion(false);
+      });
+  }, []);
 
   const handleWhatsAppOrder = (planTitle, price) => {
     const phoneNumber = "917207165639";
@@ -10,27 +32,6 @@ const Pricing = () => {
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
-
-  // Simple region detection (for demo: checks locale, not 100% accurate)
-  const getRegion = () => {
-    const locale = navigator.language || navigator.userLanguage || '';
-    const lower = locale.toLowerCase();
-    if (
-      lower.includes('in') || // India
-      lower.includes('ae') || // UAE
-      lower.includes('ar') || // Arabic
-      lower.includes('sa') || // Saudi Arabia
-      lower.includes('qa') || // Qatar
-      lower.includes('om') || // Oman
-      lower.includes('kw') || // Kuwait
-      lower.includes('bh')    // Bahrain
-    ) {
-      return 'INR';
-    }
-    return 'USD';
-  };
-
-  const region = getRegion();
 
   const plansINR = [
     {
@@ -131,6 +132,14 @@ const Pricing = () => {
         'Beautifully formatted and completely ATS-friendly. My LinkedIn profile looks amazing too!'
     }
   ];
+
+  if (loadingRegion) {
+    return (
+      <section className="section transprant-bg pclear secPadding" style={{ padding: '40px 0', minHeight: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#fff', fontSize: '20px', textAlign: 'center' }}>Loading pricing...</div>
+      </section>
+    );
+  }
 
   return (
     <section className="pricing-section" style={{ background: '#f5f8fa', padding: '60px 20px' }}>
