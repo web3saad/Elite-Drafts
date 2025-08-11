@@ -20,7 +20,7 @@ const Banner = () => {
       if ($(".banner-image").length > 0) {
         console.log('Setting banner background with backstretch');
         try {
-          $(".banner-image").backstretch('/images/banner2.png');
+          $(".banner-image").backstretch('/images/bannerfinal.png');
           
           // Apply mobile-specific positioning
           if (window.innerWidth <= 768) {
@@ -33,7 +33,7 @@ const Banner = () => {
           // Fallback to CSS background with mobile adjustments
           const isMobile = window.innerWidth <= 768;
           $(".banner-image").css({
-            'background-image': 'url(/images/banner2.png)',
+            'background-image': 'url(/images/bannerfinal.png)',
             'background-size': 'cover',
             'background-position': isMobile ? 'center 20%' : 'center top',
             'background-repeat': 'no-repeat',
