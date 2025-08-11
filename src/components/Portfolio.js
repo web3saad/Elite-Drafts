@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
   if (!isOpen || !project) return null;
@@ -27,9 +27,13 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   );
 };
 
-const ProjectItem = ({ project, onClick }) => {
+const ProjectItem = ({ project, onClick, isMobile }) => {
   return (
-    <div className="col-6 col-sm-6 col-md-4" style={{ padding: '18px' }}>
+    <div style={{ 
+      width: isMobile ? '100%' : '50%', 
+      padding: isMobile ? '9px 0' : '9px',
+      boxSizing: 'border-box'
+    }}>
       <div
         className="image-box"
         style={{
@@ -39,7 +43,8 @@ const ProjectItem = ({ project, onClick }) => {
           padding: '10px',
           backgroundColor: '#fff',
           minHeight: '320px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+          height: '100%'
         }}
         onClick={() => onClick(project)}
       >
@@ -60,6 +65,29 @@ const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState('*');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Handle window resize for responsive layout
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Custom styles for consistent 2-column layout
+  const containerStyle = {
+    maxWidth: '100%',
+    margin: '0 auto'
+  };
+
+  const rowStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: isMobile ? '0' : '0 -9px' // Negative margin to offset padding
+  };
 
   const filters = [
     { label: 'All', value: '*' },
@@ -186,13 +214,13 @@ const Portfolio = () => {
         </div>
 
         {/* Project Grid */}
-        <div className="row">
+        <div style={rowStyle}>
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project) => (
-              <ProjectItem key={project.id} project={project} onClick={handleProjectClick} />
+              <ProjectItem key={project.id} project={project} onClick={handleProjectClick} isMobile={isMobile} />
             ))
           ) : (
-            <div className="text-center">No projects found.</div>
+            <div className="text-center" style={{ width: '100%' }}>No projects found.</div>
           )}
         </div>
       </div>
