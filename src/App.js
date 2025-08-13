@@ -5,7 +5,7 @@ import Banner from './components/Banner';
 import WelcomeSection from './components/WelcomeSection';
 import Services from './components/Services';
 import About from './components/About';
-import Portfolio from './components/Portfolio';
+
 import ATSPricing from './pricing-pages/atsprice';
 import WebDevPricing from './pricing-pages/webdevprice';
 import CoverLetterPricing from './pricing-pages/coverletterprice';
@@ -23,7 +23,6 @@ const HomePage = () => {
       <WelcomeSection />
       <Services />
       <About />
-      <Portfolio />
       <Contact />
     </>
   );

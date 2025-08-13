@@ -28,12 +28,22 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 };
 
 const ProjectItem = ({ project, onClick, isMobile }) => {
+  console.log('ProjectItem render - isMobile:', isMobile);
+  
+  const itemStyle = {
+    width: isMobile ? '100%' : '50%',
+    padding: isMobile ? '9px 0' : '9px',
+    boxSizing: 'border-box',
+    // Force mobile layout
+    ...(isMobile && {
+      minWidth: '100%',
+      maxWidth: '100%',
+      flexBasis: '100%'
+    })
+  };
+  
   return (
-    <div style={{ 
-      width: isMobile ? '100%' : '50%', 
-      padding: isMobile ? '9px 0' : '9px',
-      boxSizing: 'border-box'
-    }}>
+    <div style={itemStyle} className="portfolio-item-mobile">
       <div
         className="image-box"
         style={{
@@ -65,16 +75,36 @@ const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState('*');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Handle window resize for responsive layout
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const checkMobile = () => {
+      // Use multiple methods to detect mobile
+      const width = window.innerWidth;
+      const isMobileView = width <= 768;
+      
+      // Also check if we're in a mobile browser
+      const userAgent = navigator.userAgent;
+      const isMobileBrowser = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+      
+      // Set mobile state based on viewport width (primary) and user agent (secondary)
+      setIsMobile(isMobileView);
+      
+      console.log('Screen width:', width, 'isMobile:', isMobileView, 'UserAgent mobile:', isMobileBrowser);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    // Check immediately
+    checkMobile();
+    
+    // Add event listener
+    window.addEventListener('resize', checkMobile);
+    window.addEventListener('orientationchange', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('orientationchange', checkMobile);
+    };
   }, []);
 
   // Custom styles for consistent 2-column layout
@@ -188,12 +218,7 @@ const Portfolio = () => {
   return (
     <section className="section secPadding">
       <div className="container">
-        <h2 className="text-center" style={{ fontSize: '28px', marginBottom: '15px' }}>
-          Our Sample Works
-        </h2>
-        <div className="text-center" style={{ fontSize: '14px', marginBottom: '20px' }}>
-          Choose category below and click an image to view project details.
-        </div>
+
 
         {/* Filter Buttons in 2 Rows */}
         <div className="row text-center" style={{ marginBottom: '20px' }}>
@@ -214,7 +239,7 @@ const Portfolio = () => {
         </div>
 
         {/* Project Grid */}
-        <div style={rowStyle}>
+        <div style={rowStyle} className="portfolio-row-mobile">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project) => (
               <ProjectItem key={project.id} project={project} onClick={handleProjectClick} isMobile={isMobile} />

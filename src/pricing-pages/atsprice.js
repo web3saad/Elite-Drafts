@@ -6,6 +6,11 @@ const Pricing = () => {
   const [region, setRegion] = useState('USD');
   const [loadingRegion, setLoadingRegion] = useState(true);
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     // Use ipapi.co to get country code
     fetch('https://ipapi.co/json/')
@@ -191,66 +196,7 @@ const Pricing = () => {
           </div>
         </div>
 
-        {/* Resume Samples Section */}
-        <div className="text-center mt-5 mb-5">
-          <h3 className="fw-bold mb-4">Our Resume Samples</h3>
-          <div className="row">
-            {[1,2,3,4,5,6,7,8].map((num) => (
-              <div className="col-md-4 mb-4" key={num}>
-                <div
-                  className="sample-image-container"
-                  style={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                  }}
-                >
-                  <img
-                    src={`/images/cv${num}.jpeg`}
-                    alt={`Resume Sample ${num}`}
-                    style={{
-                      width: '100%',
-                      height: '200px',
-                      objectFit: 'cover',
-                      transition: 'transform 0.3s ease'
-                    }}
-                    onMouseEnter={e => { e.target.style.transform = 'scale(1.05)'; }}
-                    onMouseLeave={e => { e.target.style.transform = 'scale(1)'; }}
-                  />
-                  {/* Watermark */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '0',
-                      left: '0',
-                      right: '0',
-                      bottom: '0',
-                      background: 'linear-gradient(45deg, transparent 40%, rgba(0,123,255,0.1) 50%, transparent 60%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      pointerEvents: 'none'
-                    }}
-                  >
-                    <div
-                      style={{
-                        color: 'rgba(0,123,255,0.3)',
-                        fontSize: '18px',
-                        fontWeight: 'bold',
-                        transform: 'rotate(-45deg)',
-                        userSelect: 'none',
-                        textShadow: '1px 1px 2px rgba(255,255,255,0.5)'
-                      }}
-                    >
-                      ELITE SERVICES
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+
 
         <div className="text-center mt-5">
           <h3 style={{ fontWeight: '600', fontSize: '24px', marginBottom: '30px' }}>What Our Clients Say</h3>
