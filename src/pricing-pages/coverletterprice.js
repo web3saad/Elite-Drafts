@@ -109,7 +109,7 @@ const CoverLetterPricing = () => {
   const plansAUD = [
     {
       title: 'Starter Letter',
-      price: 'A$23',
+      price: 'A$49',
       features: [
         '1 Customized Cover Letter',
         'Professional Language',
@@ -119,7 +119,7 @@ const CoverLetterPricing = () => {
     },
     {
       title: 'Advanced Letter',
-      price: 'A$38',
+      price: 'A$78',
       features: [
         '2 Tailored Cover Letters',
         'Keyword Optimized for ATS',
@@ -129,7 +129,7 @@ const CoverLetterPricing = () => {
     },
     {
       title: 'Premium Letter',
-      price: 'A$53',
+      price: 'A$99',
       features: [
         'Up to 3 Industry-Specific Letters',
         'Unlimited Revisions',
