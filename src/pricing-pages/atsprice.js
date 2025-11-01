@@ -20,6 +20,8 @@ const Pricing = () => {
           setRegion('INR');
         } else if (["AE","AR","SA","QA","OM","KW","BH"].includes(data.country_code)) {
           setRegion('INR');
+        } else if (data.country_code === 'AU') {
+          setRegion('AUD');
         } else {
           setRegion('USD');
         }
@@ -126,10 +128,45 @@ const Pricing = () => {
         'Price depends on experience & role',
         'Priority Delivery'
       ]
+    }
+
+  ];
+
+  const plansAUD = [
+    {
+      title: 'Fresher',
+      price: 'A$105',
+      features: [
+        'ATS-Optimized Resume',
+        'Keyword Optimization',
+        'Professional Formatting',
+        '24-48 Hour Turnaround'
+      ]
     },
-     {
-      title: ' Australian standard CV',
-      price: '$49',
+    {
+      title: 'Experience 1 to 5',
+      price: 'A$180',
+      features: [
+        'ATS-Optimized Resume',
+        'Keyword Optimization',
+        'Professional Formatting',
+        '24-48 Hour Turnaround'
+      ]
+    },
+    {
+      title: 'Experience 6 to 10',
+      price: 'A$240',
+      features: [
+        'ATS-Optimized Resume',
+        'Advanced Keyword Optimization',
+        'Professional Formatting',
+        '2 Revision Rounds',
+        '48-Hour Turnaround'
+      ]
+    },
+    {
+      title: 'Experience 10+',
+      price: 'A$300 to A$750',
       features: [
         'ATS-Optimized Resume',
         'Executive/Leadership Resume',
@@ -138,10 +175,9 @@ const Pricing = () => {
         'Priority Delivery'
       ]
     }
-
   ];
 
-  const plans = region === 'INR' ? plansINR : plansUSD;
+  const plans = region === 'INR' ? plansINR : region === 'AUD' ? plansAUD : plansUSD;
 
   const testimonials = [
     {

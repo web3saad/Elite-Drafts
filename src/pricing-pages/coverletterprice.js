@@ -3,10 +3,34 @@ import { useNavigate } from 'react-router-dom';
 
 const CoverLetterPricing = () => {
   const navigate = useNavigate();
+  const [region, setRegion] = React.useState('USD');
+  const [loadingRegion, setLoadingRegion] = React.useState(true);
 
   // Scroll to top when page loads
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    // Use ipapi.co to get country code
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.country_code === 'IN') {
+          setRegion('INR');
+        } else if (["AE","AR","SA","QA","OM","KW","BH"].includes(data.country_code)) {
+          setRegion('INR');
+        } else if (data.country_code === 'AU') {
+          setRegion('AUD');
+        } else {
+          setRegion('USD');
+        }
+        setLoadingRegion(false);
+      })
+      .catch(() => {
+        setRegion('USD');
+        setLoadingRegion(false);
+      });
   }, []);
 
   const handleWhatsAppOrder = (planTitle, price) => {
@@ -16,7 +40,7 @@ const CoverLetterPricing = () => {
     window.open(whatsappUrl, '_blank');
   };
 
-  const plans = [
+  const plansINR = [
     {
       title: 'Starter Letter',
       price: '₹499',
@@ -46,10 +70,33 @@ const CoverLetterPricing = () => {
         'Personalized Strategy Guidance',
         'Delivery in 3 Days'
       ]
+    }
+  ];
+
+  const plansUSD = [
+    {
+      title: 'Starter Letter',
+      price: '$15',
+      features: [
+        '1 Customized Cover Letter',
+        'Professional Language',
+        'Delivery in 2 Days',
+        'PDF & DOCX Formats'
+      ]
     },
-       {
-      title: 'Australian standard Cover Letter',
-      price: '$49',
+    {
+      title: 'Advanced Letter',
+      price: '$25',
+      features: [
+        '2 Tailored Cover Letters',
+        'Keyword Optimized for ATS',
+        '1 Revision',
+        'Delivery in 2-3 Days'
+      ]
+    },
+    {
+      title: 'Premium Letter',
+      price: '$35',
       features: [
         'Up to 3 Industry-Specific Letters',
         'Unlimited Revisions',
@@ -57,8 +104,50 @@ const CoverLetterPricing = () => {
         'Delivery in 3 Days'
       ]
     }
-
   ];
+
+  const plansAUD = [
+    {
+      title: 'Starter Letter',
+      price: 'A$23',
+      features: [
+        '1 Customized Cover Letter',
+        'Professional Language',
+        'Delivery in 2 Days',
+        'PDF & DOCX Formats'
+      ]
+    },
+    {
+      title: 'Advanced Letter',
+      price: 'A$38',
+      features: [
+        '2 Tailored Cover Letters',
+        'Keyword Optimized for ATS',
+        '1 Revision',
+        'Delivery in 2-3 Days'
+      ]
+    },
+    {
+      title: 'Premium Letter',
+      price: 'A$53',
+      features: [
+        'Up to 3 Industry-Specific Letters',
+        'Unlimited Revisions',
+        'Personalized Strategy Guidance',
+        'Delivery in 3 Days'
+      ]
+    }
+  ];
+
+  const plans = region === 'INR' ? plansINR : region === 'AUD' ? plansAUD : plansUSD;
+
+  if (loadingRegion) {
+    return (
+      <section className="pricing-section py-5" style={{ background: '#fffaf6', minHeight: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#333', fontSize: '20px', textAlign: 'center' }}>Loading pricing...</div>
+      </section>
+    );
+  }
 
   return (
     <section className="pricing-section py-5" style={{ background: '#fffaf6' }}>
